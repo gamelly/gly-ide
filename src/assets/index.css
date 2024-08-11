@@ -1,81 +1,58 @@
-html {
-    overflow: hidden;
-}
-
-html, body {
+*, *::after, *::before {
+    touch-action: none;
+    box-sizing: border-box;
+    border: 0;
+    padding: 0;
     margin: 0;
 }
 
 main {
-    font-family: "Cascadia Code";
-    display: flex;
-    align-items: stretch;
-    height: 100vh;
-    width: 100%;
+    display: grid;
+    width: 100vw;
+    height: 99.9vh;
+    overflow: hidden;
 }
 
-pre {
-    font-family: "Cascadia Code";
-    margin: 0;
-    padding: 0;
-}
-
-@media (max-width: 1000px) {
-    main {
-        flex-direction: column;
-    }
-}
-
-#editor {
-    flex: 1;
-}
-
-.tip {
-    position: absolute;
-    bottom: 1em;
-    left: 1em;
-    z-index: 5;
-    color: white;
-    display: flex;
-    flex-direction: column;
-}
-
-#current-action {
-    color: #888888;
-    margin-bottom: 1rem;
+#buttons {
+    grid-area: buttons;
 }
 
 #output {
-    flex: 1;
-    background-color: rgb(13, 16, 30);
-    color: white;
-    padding: 10px;
-    overflow: auto;
+    grid-area: output;
 }
 
-.github {
-    position: absolute;
-    bottom: 1em;
-    right: 1em;
-    z-index: 5;
+#game {
+    grid-area: game;
+    background-color: black;
 }
 
-.github a {
-    color: wheat;
+#editor {
+    grid-area: editor;
 }
 
-@media (max-width: 1000px) {
-    #divider {
-        width: auto !important;
-        height: 4px;
-    }
+#game canvas {
+    width: 100%;
+}
 
-    .tip {
-        display: none;
+@media (max-width: 700px) {
+    main {
+        grid-template-areas:
+            "buttons buttons"
+            "game output"
+            "editor editor";
     }
 }
 
-#divider {
-    width: 4px;
-    background-color: #444444;
+@media (min-width: 700px) {
+    #editor {
+        height: 90vh;
+    }
+    main {
+        grid-template-columns: 2fr 2fr;
+        grid-template-rows: auto 1fr 1fr;
+        grid-template-areas:
+            "buttons buttons"
+            "editor game"
+            "editor output";
+    }
 }

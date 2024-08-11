@@ -24,17 +24,19 @@
 
 <body>
     <main>
-        <div id="editor">
-            <div class="tip">
-                <span id="current-action"></span>
-                <span>Ctrl + E to execute</span>
-                <span>Ctrl + S to save</span>
-            </div>
-        </div>
-        <div id="divider"></div>
+        <div id="editor"></div>
         <div id="output"></div>
-        <div class="github">
-            <a href="https://github.com/ceifa/try-lua">Made with ❤️</a>
+        <div id="game">
+            <canvas></canvas>
+        </div>
+        <div class="buttons">
+            <button id="btn-play">
+                <span>play</span>
+            </button>
+            <button id="btn-hot-reload">
+                <span>hot reload</span>
+                <input type="checkbox" disabled readonly></input>
+            </button>
         </div>
     </main>
     <link rel="stylesheet" href="./assets/index.css">
