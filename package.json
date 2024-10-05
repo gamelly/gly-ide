@@ -1,7 +1,13 @@
 {
-  "name": "try-lua",
-  "main": "src/index.js",
+  "name": "@gamely/gly-ide",
+  "license": "MIT",
+  "homepage": "https://ide.gamely.com.br",
+  "repository": "https://github.com/gamelly/gly-ide",
+  "funding": "https://github.com/sponsors/RodrigoDornelles",
+  "bugs": "https://github.com/gamelly/gly-ide/issues",
   "devDependencies": {
+    "@gamely/gly-engine": "^0.0.7",
+    "@gamely/core-native-html5": "^0.0.7",
     "copy-webpack-plugin": "11.0.0",
     "css-loader": "6.7.3",
     "html-webpack-plugin": "5.5.0",
@@ -15,14 +21,5 @@
   "scripts": {
     "start": "webpack --mode=development --watch --progress",
     "build": "webpack --mode=production"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/ceifa/try-lua.git"
-  },
-  "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/ceifa/try-lua/issues"
-  },
-  "homepage": "https://github.com/ceifa/try-lua#readme"
+  }
 }
