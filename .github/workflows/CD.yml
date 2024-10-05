@@ -1,0 +1,36 @@
+name: cd
+
+env:
+  CLOUDFLARE_PROJECT_TRYLUA: ide-gly
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+      - develop
+
+jobs:
+  pages:
+    runs-on: ubuntu-latest
+    if: github.event_name == 'push' || github.event.pull_request.draft == false
+    steps:
+      - 
+        uses: actions/checkout@master
+      - 
+        run: |
+          npm install
+      - 
+        run: |
+          npm run build
+      - 
+        if: github.event_name == 'push' || github.event.pull_request.head.repo.full_name == github.repository || github.event_name == 'workflow_dispatch'
+        uses: cloudflare/pages-action@v1
+        with:
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          projectName: ${{ env.CLOUDFLARE_PROJECT_TRYLUA }}
+          directory: dist

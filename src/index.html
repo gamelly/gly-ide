@@ -6,7 +6,7 @@
     <meta charset="UTF-8">
     <meta name="description" content="Try Lua online">
     <link rel="icon" type="image/png" href="./assets/logo.png" />
-    <title>Lua Repl</title>
+    <title>IDE - Gly Game Engine</title>
     <link rel="preload" href="/assets/CascadiaMono.ttf" as="font" type="font/ttf" crossorigin>
     <style>
         @font-face {
@@ -14,12 +14,6 @@
             src: url(assets/CascadiaMono.ttf);
         }
     </style>
-    <script>
-        const paste = new URLSearchParams(window.location.search).get('paste');
-        if (paste) {
-            window.pasteFetch = fetch('https://api.ceifa.dev/document/' + paste)
-        }
-    </script>
 </head>
 
 <body>
@@ -27,7 +21,7 @@
         <div id="editor"></div>
         <div id="output"></div>
         <div id="game">
-            <canvas></canvas>
+            <canvas id="gameCanvas"></canvas>
         </div>
         <div class="buttons">
             <button id="btn-play">

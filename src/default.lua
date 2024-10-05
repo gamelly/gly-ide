@@ -1,12 +1,31 @@
-function fibonacci(n)
-    local current, next = 0, 1
-
-    for i = 1, n do
-        print(current)
-        current, next = next, current + next
-    end
-
-    return current
+local function init(std, game)
 end
 
-fibonacci(20)
+local function loop(std, game)
+end
+
+local function draw(std, game)
+    std.draw.clear(std.color.blue)
+    std.draw.color(std.color.black)
+    std.draw.text(8 , 8, 'Hello world!')
+end
+
+local function exit(std, game)
+end
+
+local P = {
+    meta={
+        title='Hello world',
+        author='RodrigoDornelles',
+        description='say hello to the world!',
+        version='1.0.0'
+    },
+    callbacks={
+        init=init,
+        loop=loop,
+        draw=draw,
+        exit=exit
+    }
+}
+
+return P
