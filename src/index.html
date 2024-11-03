@@ -1,39 +1,45 @@
-<!DOCTYPE html>
-<html lang="en">
+<!doctype html>
+<html lang="pt-BR">
+    <head>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <meta charset="UTF-8" />
+        <meta name="description" content="Tente Lua online" />
+        <link rel="icon" type="image/png" href="./assets/logo.png" />
+        <title>IDE - Gly Game Engine</title>
+        <link rel="preload" href="/assets/CascadiaMono.ttf" as="font" type="font/ttf" crossorigin />
+        <style>
+            @font-face {
+                font-family: "Cascadia Code";
+                src: url(assets/CascadiaMono.ttf);
+            }
+        </style>
+        <link rel="stylesheet" href="./assets/layout.css" />
+        <link rel="stylesheet" href="./assets/index.css" />
+    </head>
+    <body>
+        <main class="layout-default">
+            <div id="editor-block">
+                <div id="editor"></div>
+            </div>
+            <div id="output"></div>
+            <div id="game">
+                <canvas id="gameCanvas"></canvas>
+            </div>
+            <div id="configs-buttons">
+                <button class="button" id="btn-play">Play</button>
+                <button class="button" id="btn-hot-reload">
+                    Auto Reload
+                    <input type="checkbox" id="chk-hot-reload" checked/>
+                </button>
+                <select id="sel-layout">
+                    <option selected>layout-default</option>
+                    <option>layout-game</option>
+                    <option>layout-editor</option>
+                </select>
+                <a class="button" target="_blank" href="https://docs.gamely.com.br/">View Docs</a>
+            </div>
+        </main>
 
-<head>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta charset="UTF-8">
-    <meta name="description" content="Try Lua online">
-    <link rel="icon" type="image/png" href="./assets/logo.png" />
-    <title>IDE - Gly Game Engine</title>
-    <link rel="preload" href="/assets/CascadiaMono.ttf" as="font" type="font/ttf" crossorigin>
-    <style>
-        @font-face {
-            font-family: 'Cascadia Code';
-            src: url(assets/CascadiaMono.ttf);
-        }
-    </style>
-</head>
-
-<body>
-    <main>
-        <div id="editor"></div>
-        <div id="output"></div>
-        <div id="game">
-            <canvas id="gameCanvas"></canvas>
-        </div>
-        <div class="buttons">
-            <button id="btn-play">
-                <span>play</span>
-            </button>
-            <button id="btn-hot-reload">
-                <span>hot reload</span>
-                <input type="checkbox" disabled readonly></input>
-            </button>
-        </div>
-    </main>
-    <link rel="stylesheet" href="./assets/index.css">
-</body>
-
+        <script type="module" src="index.js"></script>
+    </body>
 </html>

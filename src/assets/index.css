@@ -1,4 +1,6 @@
-*, *::after, *::before {
+*,
+*::after,
+*::before {
     touch-action: none;
     box-sizing: border-box;
     border: 0;
@@ -6,53 +8,62 @@
     margin: 0;
 }
 
+body {
+    background-color: #222;
+    color: #f5f5f5;
+    font-family: "Cascadia Code", monospace;
+}
+
 main {
     display: grid;
     width: 100vw;
-    height: 99.9vh;
-    overflow: hidden;
+    height: 100vh;
+    padding: 1rem;
+    gap: 1rem;
 }
 
-#buttons {
-    grid-area: buttons;
+#editor-block {
+    grid-area: editor-block;
 }
 
-#output {
-    grid-area: output;
+#configs-buttons {
+    grid-area: config-buttons;
+    display: flex;
+    justify-content: space-around;
+    height: 32px;
+}
+
+.button {
+    padding: 0.5rem 1rem;   
+    background: #007bff;
+    color: #fff;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+.button:hover {
+    background-color: #0056b3;
+}
+
+#editor {
+    width: 100%;
+    height: 100%;
+    background: #1e1e1e;
+    overflow: auto;
 }
 
 #game {
     grid-area: game;
-    background-color: black;
-}
-
-#editor {
-    grid-area: editor;
+    border: 2px solid #555;
 }
 
 #game canvas {
     width: 100%;
 }
 
-@media (max-width: 700px) {
-    main {
-        grid-template-areas:
-            "buttons buttons"
-            "game output"
-            "editor editor";
-    }
-}
-
-@media (min-width: 700px) {
-    #editor {
-        height: 90vh;
-    }
-    main {
-        grid-template-columns: 2fr 2fr;
-        grid-template-rows: auto 1fr 1fr;
-        grid-template-areas:
-            "buttons buttons"
-            "editor game"
-            "editor output";
-    }
+#output {
+    grid-area: output;
+    background: #444;
+    padding: 1rem;
+    overflow: auto;
 }
