@@ -15,6 +15,15 @@ document.addEventListener('DOMContentLoaded', async () => {
         fontFamily: 'Cascadia Code'
     });
 
+    const elMain = document.querySelector('main')
+    const elSelLayout = document.querySelector("#sel-layout")
+    elSelLayout.addEventListener("change", function () {
+        Array.from(elMain.classList)
+            .filter(className => className.startsWith("layout-"))
+            .forEach(className => elMain.classList.remove(className))
+        elMain.classList.add(elSelLayout.value)
+    });
+
     monacoEditor.setValue(defaultScript)
     
     const factory = new LuaFactory(wasmFile)

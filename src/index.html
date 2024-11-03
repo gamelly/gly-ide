@@ -13,25 +13,30 @@
                 src: url(assets/CascadiaMono.ttf);
             }
         </style>
+        <link rel="stylesheet" href="./assets/layout.css" />
         <link rel="stylesheet" href="./assets/index.css" />
     </head>
     <body>
-        <main>
+        <main class="layout-default">
             <div id="editor-block">
-                <div id="configs-buttons">
-                    <button class="button" id="btn-play">Play</button>
-                    <button class="button" id="btn-hot-reload">
-                        Hot Reload
-                        <input type="checkbox" disabled readonly />
-                    </button>
-                    <button class="button">sei la</button>
-                    <button class="button">save</button>
-                </div>
                 <div id="editor"></div>
             </div>
             <div id="output"></div>
             <div id="game">
                 <canvas id="gameCanvas"></canvas>
+            </div>
+            <div id="configs-buttons">
+                <button class="button" id="btn-play">Play</button>
+                <button class="button" id="btn-hot-reload">
+                    Auto Reload
+                    <input type="checkbox" disabled readonly />
+                </button>
+                <select id="sel-layout">
+                    <option selected>layout-default</option>
+                    <option>layout-game</option>
+                    <option>layout-editor</option>
+                </select>
+                <a class="button" target="_blank" href="https://docs.gamely.com.br/">View Docs</a>
             </div>
         </main>
 

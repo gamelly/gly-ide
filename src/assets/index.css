@@ -20,29 +20,17 @@ main {
     height: 100vh;
     padding: 1rem;
     gap: 1rem;
-    grid-template-columns: minmax(300px, 45%) 1fr;
-    grid-template-areas:
-        "editor-block game"
-        "editor-block output";
 }
 
 #editor-block {
     grid-area: editor-block;
-    display: grid;
-    grid-template-rows: auto 1fr;
-    grid-template-areas:
-        "config-buttons"
-        "editor";
-    gap: 10px;
-    background: #333;
 }
 
 #configs-buttons {
     grid-area: config-buttons;
     display: flex;
     justify-content: space-around;
-    gap: 1rem;
-    padding: 0.5rem;
+    height: 32px;
 }
 
 .button {
@@ -58,8 +46,8 @@ main {
 }
 
 #editor {
-    grid-area: editor;
     width: 100%;
+    height: 100%;
     background: #1e1e1e;
     overflow: auto;
 }
@@ -78,14 +66,4 @@ main {
     background: #444;
     padding: 1rem;
     overflow: auto;
-}
-
-@media (max-width: 768px) {
-    main {
-        grid-template-columns: 1fr;
-        grid-template-areas:
-            "editor-block"
-            "game"
-            "output";
-    }
 }
