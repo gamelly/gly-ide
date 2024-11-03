@@ -5,23 +5,21 @@ import gly from '@gamely/core-native-html5'
 import gly_engine from '@gamely/gly-engine/dist/main.lua'
 import defaultScript from './default.lua'
 
+let monacoTimeout;
+
 document.addEventListener('DOMContentLoaded', async () => {
-    const elementEditor = document.querySelector('#editor')
-    const monacoEditor = editor.create(elementEditor, {
+    const elMain = document.querySelector('main')
+    const elMonacoEditor = document.querySelector('#editor')
+    const elBtnPlay = document.querySelector('#btn-play')
+    const elChkHotReload = document.querySelector('#chk-hot-reload')
+    const elSelLayout = document.querySelector('#sel-layout')
+
+    const monacoEditor = editor.create(elMonacoEditor, {
         language: 'lua',
         theme: 'vs-dark',
         automaticLayout: true,
         fontLigatures: true,
         fontFamily: 'Cascadia Code'
-    });
-
-    const elMain = document.querySelector('main')
-    const elSelLayout = document.querySelector("#sel-layout")
-    elSelLayout.addEventListener("change", function () {
-        Array.from(elMain.classList)
-            .filter(className => className.startsWith("layout-"))
-            .forEach(className => elMain.classList.remove(className))
-        elMain.classList.add(elSelLayout.value)
     });
 
     monacoEditor.setValue(defaultScript)
@@ -55,15 +53,33 @@ document.addEventListener('DOMContentLoaded', async () => {
     gly.init('#gameCanvas')
 
     gly.load(defaultScript)
+    const apply = () => gly.load(monacoEditor.getValue())
 
     monacoEditor.addAction({
         id: 'run-game',
         label: 'running game',
         keybindings: [KeyMod.CtrlCmd | KeyCode.KeyE],
-        run: () => {
-            gly.load(monacoEditor.getValue())
-        }
+        run: apply
     })
+
+    elSelLayout.addEventListener('change', () => {
+        Array.from(elMain.classList)
+            .filter(className => className.startsWith('layout-'))
+            .forEach(className => elMain.classList.remove(className))
+        elMain.classList.add(elSelLayout.value)
+    });
+
+    elBtnPlay.addEventListener('click', apply)
+
+    monacoEditor.onDidChangeModelContent(() => {
+        clearTimeout(monacoTimeout);
+        monacoTimeout = setTimeout(() => {
+            if (elChkHotReload.checked) {
+                apply()
+            }
+        }, 5000);
+    });
+    
 
     const keys = [
         [403, 'red'],
