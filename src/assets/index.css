@@ -44,6 +44,9 @@ main {
 .button:hover {
     background-color: #0056b3;
 }
+button:disabled, .button:hover:disabled {
+    background-color: red;
+}
 
 #editor {
     width: 100%;
