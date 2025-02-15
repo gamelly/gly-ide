@@ -1,46 +1,162 @@
 <!doctype html>
 <html lang="pt-BR">
-    <head>
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <meta charset="UTF-8" />
-        <meta name="description" content="Write games and apps with lua direct on your browser!" />
-        <link rel="icon" type="image/png" href="./assets/favicon.ico" />
-        <title>IDE - Gly Game Engine</title>
-        <link rel="preload" href="/assets/CascadiaMono.ttf" as="font" type="font/ttf" crossorigin />
-        <style>
-            @font-face {
-                font-family: "Cascadia Code";
-                src: url(assets/CascadiaMono.ttf);
-            }
-        </style>
-        <link rel="stylesheet" href="./assets/layout.css" />
-        <link rel="stylesheet" href="./assets/index.css" />
-    </head>
-    <body>
-        <main class="layout-default">
-            <div id="editor-block">
-                <div id="editor"></div>
-            </div>
-            <div id="output"></div>
-            <div id="game">
-                <canvas id="gameCanvas"></canvas>
-            </div>
-            <div id="configs-buttons">
-                <button class="button" id="btn-play">Play</button>
-                <button class="button" id="btn-hot-reload">
-                    Auto Reload
-                    <input type="checkbox" id="chk-hot-reload"/>
-                </button>
-                <select id="sel-layout">
-                    <option selected>layout-default</option>
-                    <option>layout-game</option>
-                    <option>layout-editor</option>
-                </select>
-                <a class="button" target="_blank" href="https://docs.gamely.com.br/">View Docs</a>
-                <button class="button" id="btn-export">Export .gba</button>
-            </div>
-        </main>
 
-        <script type="module" src="index.js"></script>
-    </body>
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta charset="UTF-8" />
+    <meta name="description" content="Write games and apps with lua direct on your browser!" />
+    <title>IDE - Gly Game Engine</title>
+    <link rel="icon" type="image/png" href="./assets/favicon.ico" />
+    <link rel="preload" href="/assets/CascadiaMono.ttf" as="font" type="font/ttf" crossorigin />
+    <style>
+        @font-face {
+            font-family: "Cascadia Code";
+            src: url(assets/CascadiaMono.ttf);
+        }
+    </style>
+    <link rel="stylesheet" href="./assets/layout.css" />
+    <link rel="stylesheet" href="./assets/index.css" />
+</head>
+
+<body>
+    <main class="layout-default">
+        <div id="top-bar">
+            <button class="button" id="btn-play">
+                <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M4 2L13 8L4 14V2Z" fill="currentColor" />
+                </svg>
+                Apply
+            </button>
+            <button class="button" id="btn-hot-reload">
+                <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path
+                        d="M13.7071 4.29289C12.7771 3.36289 11.5371 2.76489 10.1771 2.58489C8.81712 2.40489 7.43712 2.65489 6.21712 3.30089C4.99712 3.94689 4.00712 4.95689 3.36712 6.17089C2.72712 7.38489 2.47712 8.76089 2.64712 9.91689L4.12712 9.63689C4.00712 8.81689 4.18712 7.82689 4.65712 6.91689C5.12712 6.00689 5.86712 5.25689 6.77712 4.78689C7.68712 4.31689 8.70712 4.13689 9.71712 4.27689C10.7271 4.41689 11.6571 4.86689 12.3671 5.57689L10.0071 7.99689H16.0071V1.99689L13.7071 4.29289Z"
+                        fill="currentColor" />
+                </svg>
+                Auto Reload
+                <input type="checkbox" id="chk-hot-reload" />
+            </button>
+            <select id="sel-layout">
+                <option selected>layout-default</option>
+                <option>layout-game</option>
+                <option>layout-editor</option>
+            </select>
+            <a class="button" target="_blank" href="https://docs.gamely.com.br/">
+                <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path
+                        d="M14 8C14 11.3137 11.3137 14 8 14C4.68629 14 2 11.3137 2 8C2 4.68629 4.68629 2 8 2C11.3137 2 14 4.68629 14 8ZM8 3.5C8.27614 3.5 8.5 3.72386 8.5 4V8C8.5 8.27614 8.27614 8.5 8 8.5C7.72386 8.5 7.5 8.27614 7.5 8V4C7.5 3.72386 7.72386 3.5 8 3.5ZM8 10.5C8.27614 10.5 8.5 10.7239 8.5 11C8.5 11.2761 8.27614 11.5 8 11.5C7.72386 11.5 7.5 11.2761 7.5 11C7.5 10.7239 7.72386 10.5 8 10.5Z"
+                        fill="currentColor" />
+                </svg>
+                View Docs
+            </a>
+            <button class="button" id="btn-export">
+                <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path
+                        d="M11.7071 7.29289L8.70711 4.29289C8.31658 3.90237 7.68342 3.90237 7.29289 4.29289L4.29289 7.29289C3.90237 7.68342 3.90237 8.31658 4.29289 8.70711C4.68342 9.09763 5.31658 9.09763 5.70711 8.70711L7 7.41421V11C7 11.5523 7.44772 12 8 12C8.55228 12 9 11.5523 9 11V7.41421L10.2929 8.70711C10.6834 9.09763 11.3166 9.09763 11.7071 8.70711C12.0976 8.31658 12.0976 7.68342 11.7071 7.29289Z"
+                        fill="currentColor" />
+                </svg>
+                Export
+            </button>
+        </div>
+        <div id="controls-row">
+            <button class="small-button" id="btn-pause">
+                <svg width="12" height="12" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M5 3H7V13H5V3ZM9 3H11V13H9V3Z" fill="currentColor" />
+                </svg>
+                Pause
+            </button>
+            <button class="small-button" id="btn-step">
+                <svg width="12" height="12" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M4 2L9 8L4 14V2ZM9 2H11V14H9V2Z" fill="currentColor" />
+                </svg>
+                Step
+            </button>
+            <button class="small-button" id="btn-next-frame">
+                <svg width="12" height="12" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M12 8L4 14V2L12 8Z" fill="currentColor" />
+                </svg>
+                resume
+            </button>
+            <div class="resolution-container">
+                <select class="resolution-select" id="preset-resolutions">
+                    <option value="240,160">GBA (240x160)</option>
+                    <option value="256,192">NDS (256x192)</option>
+                    <option value="640,480">Wii (640x480)</option>
+                    <option value="320,240">PS1 (320x240)</option>
+                    <option value="640,480">PS2 (640x480)</option>
+                </select>
+                <span class="resolution-label">Resolution:</span>
+                <div class="resolution-wrapper width-wrapper">
+                    <input type="number" class="resolution-input" id="width-input" value="240">
+                </div>
+                <span>x</span>
+                <div class="resolution-wrapper height-wrapper">
+                    <input type="number" class="resolution-input" id="height-input" value="160">
+                </div>
+            </div>
+            <div class="deltatime-container" style="display: flex; align-items: center; gap: 8px;">
+                <span class="resolution-label">Framerate:</span>
+                <select class="resolution-select" id="fps-preset" style="width: 120px;">
+                    <option value="auto">Auto</option>
+                    <option value="16.67">60 FPS (16.67ms)</option>
+                    <option value="33.33">30 FPS (33.33ms)</option>
+                    <option value="66.67">15 FPS (66.67ms)</option>
+                    <option value="16">Custom...</option>
+                </select>
+                <div class="resolution-wrapper" style="display: none;" id="custom-dt-wrapper">
+                    <input type="number" class="resolution-input" id="deltatime-input" value="16" step="0.01" min="1">
+                    <span style="margin-left: 4px; font-size: 12px;">ms</span>
+                </div>
+            </div>
+        </div>
+        <div class="content-area">
+            <div class="panel-container">
+                <div class="editor-container">
+                    <div class="editor-header">
+                        <span>Editor</span>
+                        <button class="icon-button" id="btn-collapse-editor">
+                            <svg width="16" height="16" viewBox="0 0 16 16" fill="none"
+                                xmlns="http://www.w3.org/2000/svg">
+                                <path d="M5.7 8L10.7 3L12 4.3L8.3 8L12 11.7L10.7 13L5.7 8Z" fill="currentColor" />
+                            </svg>
+                        </button>
+                    </div>
+                    <div id="editor-block">
+                        <div id="editor"></div>
+                    </div>
+                </div>
+                <div class="splitter"></div>
+                <div class="preview-container">
+                    <div class="preview-header">
+                        <span>Preview</span>
+                        <button class="icon-button" id="btn-collapse">
+                            <svg width="16" height="16" viewBox="0 0 16 16" fill="none"
+                                xmlns="http://www.w3.org/2000/svg">
+                                <path d="M5.7 8L10.7 3L12 4.3L8.3 8L12 11.7L10.7 13L5.7 8Z" fill="currentColor" />
+                            </svg>
+                        </button>
+                    </div>
+                    <div class="preview-content">
+                        <div id="game">
+                            <canvas id="gameCanvas"></canvas>
+                        </div>
+                        <div class="console-container">
+                            <div id="output-header">
+                                <span class="title">Console</span>
+                                <div class="controls">
+                                    <button id="output-clear">Clear console</button>
+                                </div>
+                            </div>
+                            <div id="output"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script type="module" src="/src/ui.js"></script>
+    <script type="module" src="/src/index.js"></script>
+</body>
+
 </html>
