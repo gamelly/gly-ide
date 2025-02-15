@@ -189,4 +189,4 @@ document.getElementById('output-clear').addEventListener('click', () => {
     output.innerHTML = '';
 });
 
-applyLayout('layout-default');
+export default applyLayout
