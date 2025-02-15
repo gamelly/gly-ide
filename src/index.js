@@ -4,7 +4,9 @@ import { editor, KeyMod, KeyCode } from 'monaco-editor'
 import gly from '@gamely/core-native-html5'
 import gly_engine from '@gamely/gly-engine/dist/main.lua'
 import defaultScript from './default.lua'
+import applyLayout from './ui.js'
 
+applyLayout('layout-default');
 let monacoTimeout;
 
 document.addEventListener('DOMContentLoaded', async () => {
