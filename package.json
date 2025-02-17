@@ -6,8 +6,8 @@
   "funding": "https://github.com/sponsors/RodrigoDornelles",
   "bugs": "https://github.com/gamelly/gly-ide/issues",
   "devDependencies": {
-    "@gamely/core-native-html5": "^0.0.15",
-    "@gamely/gly-engine": "^0.0.15",
+    "@gamely/core-native-html5": "^0.0.18",
+    "@gamely/gly-engine": "^0.0.18",
     "copy-webpack-plugin": "11.0.0",
     "css-loader": "6.7.3",
     "html-webpack-plugin": "5.5.0",
