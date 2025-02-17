@@ -1,0 +1,46 @@
+[
+    {
+        "name": "Nintendo Game Boy Advanced",
+        "short": "gba",
+        "template": "core-native-gba.gba",
+        "width": 240,
+        "height": 160,
+        "fps": 30
+    },
+    {
+        "name": "Nintendo DS",
+        "short": "nds",
+        "template": "core-native-nds.nds",
+        "width": 256,
+        "height": 192,
+        "fps": 60
+    },
+    {
+        "name": "Nintendo Wii",
+        "short": "wii",
+        "width": 640,
+        "height": 480,
+        "fps": 60
+    },
+    {
+        "name": "Sony PlayStation",
+        "short": "ps1",
+        "width": 320,
+        "height": 240,
+        "fps": 60
+    },
+    {
+        "name": "Sony PlayStation2",
+        "short": "ps2",
+        "width": 640,
+        "height": 480,
+        "fps": 60
+    },
+    {
+        "name": "Console TUI",
+        "short": "tui",
+        "width": 80,
+        "height": 24,
+        "fps": 30
+    }
+]
