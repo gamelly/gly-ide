@@ -124,8 +124,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         if (elBtnExport.disabled) {
             return console.warn(`building already in progress!`);
         }
-        
-        console.log(`starting build ${device.name}`)
+
         elBtnExport.disabled = true;
         await downloadGame(monacoEditor.getValue(), device.template)
         elBtnExport.disabled = false;

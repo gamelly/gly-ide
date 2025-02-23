@@ -25,6 +25,7 @@
     {
         "name": "Sony PlayStation",
         "short": "ps1",
+        "template": "core-native-ps1.elf",
         "width": 320,
         "height": 240,
         "fps": 60
