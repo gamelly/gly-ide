@@ -1,13 +1,17 @@
 import wasmFile from 'wasmoon/dist/glue.wasm';
 import { LuaFactory, LuaMultiReturn } from 'wasmoon'
-import { editor, KeyMod, KeyCode } from 'monaco-editor'
+import { editor, KeyMod, KeyCode, languages } from 'monaco-editor/esm/vs/editor/editor.api'
 import gly from '@gamely/core-native-html5'
-import gly_engine from '@gamely/gly-engine/dist/main.lua'
-import defaultScript from './default.lua'
+import gly_engine from '@gamely/gly-engine/dist/main.lua' with { type: "text" }
+import defaultScript from './default.lua' with { type: "text" }
 import devices from '../devices.json'
 import applyLayout from './ui.js'
 import downloadGame from './export.js'
 import compulate from './compulate.js'
+
+import 'monaco-editor/esm/vs/basic-languages/javascript/javascript'
+import 'monaco-editor/esm/vs/basic-languages/typescript/typescript'
+import * as lualang from 'monaco-editor/esm/vs/basic-languages/lua/lua'
 
 compulate(devices)
 applyLayout('layout-default');
@@ -22,6 +26,15 @@ document.addEventListener('DOMContentLoaded', async () => {
     const elChkHotReload = document.querySelector('#chk-hot-reload')
     const elSelLayout = document.querySelector('#sel-layout')
 
+    languages.register({ id: 'lua' })
+    languages.setMonarchTokensProvider('lua', {
+        ...lualang.language,
+        tokenizer: {
+          ...lualang.language.tokenizer,
+          root: [...lualang.language.tokenizer.root, [/[{}\[\]();,.]/, 'delimiter']]
+        }
+    })
+    languages.setLanguageConfiguration('lua', lualang.conf)
     const monacoEditor = editor.create(elMonacoEditor, {
         language: 'lua',
         theme: 'vs-dark',
