@@ -51,6 +51,11 @@ export default async function (src: string, toolchain: string, options: Record<s
         return console.error(`building already in progress!`);
     }
 
-    await builders[exporter]()
+    try {
+        await builders[exporter]()
+    } catch(e) {
+        console.error(e)
+    }
+
     mutex_free()
 }
