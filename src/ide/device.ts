@@ -90,7 +90,7 @@ export class Device {
 
     public getToolchain() {
         const device = this.getDevice()
-        const platform = device.export || device.template && 'template'
+        const platform = device.export || (device.template && 'template') || ''
         const suffix = device.template? `:${device.template}`: ''
         return `${platform}${suffix}`
     }
