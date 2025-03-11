@@ -7,6 +7,11 @@ export class Device {
     private el_height =  document.querySelector('#height-input') as HTMLInputElement
     private handler_resize = () => {}
 
+    private getDevice() {
+        const index = parseInt(this.el_select.value)
+        return devices[index]
+    }
+
     private compulate_device_list() {
         devices.forEach((device, index) => {
             const option = document.createElement('option')
@@ -18,8 +23,7 @@ export class Device {
 
     private compulate_fps_list() {
         const notfixed = ['Custom...', 'Auto']
-        const index = parseInt(this.el_select.value)
-        const fps_list = devices[index].fps
+        const fps_list = this.getDevice().fps
         this.el_sel_fps.options.length = 0
         this.el_sel_fps.disabled = fps_list.length <= 1
         fps_list.forEach((fps) => {
@@ -32,9 +36,9 @@ export class Device {
     }
 
     private change_device() {
-        const index = parseInt(this.el_select.value)
-        const disabled = !devices[index]?.unlock
-        const {width, height} = devices[index]
+        const device = this.getDevice()
+        const disabled = !device?.unlock
+        const {width, height} = device
         this.el_width.value = `${width}`
         this.el_height.value = `${height}`
         this.el_width.disabled = disabled
@@ -73,5 +77,21 @@ export class Device {
         const width = parseInt(this.el_width.value)
         const height = parseInt(this.el_height.value)
         return {width, height}
+    }
+
+    public getFPS() {
+        const fps = parseInt(this.el_sel_fps.value)
+        return fps <= 0? 60: fps
+    }
+
+    public getName() {
+        return this.getDevice().name
+    }
+
+    public getToolchain() {
+        const device = this.getDevice()
+        const platform = device.export || device.template && 'template'
+        const suffix = device.template? `:${device.template}`: ''
+        return `${platform}${suffix}`
     }
 }

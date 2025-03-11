@@ -1,23 +1,56 @@
-/*async () => {
-    const select = document.querySelector('#preset-resolutions');
-    const option = select.querySelector(`option[value="${select.value}"]`)
-    const device_name = option.textContent.split(' ')[0]
-    const device = devices.find((device) => device.short.toLowerCase() == device_name.toLowerCase())
+import engine_lite from '@gamely/gly-engine-lite' assert {type: 'text'}
+import lua2tic from '@gamely/lua2tic'
+import gly2bin from './template'
 
-    if (!device) {
-        return console.error(`device not found: ${device_name}`)
+export default async function (src: string, toolchain: string, options: Record<string, string>) {
+    const el_btn_export = document.querySelector("#btn-export") as HTMLInputElement
+    const [exporter, template] =  toolchain.split(':')
+    const base = (template ?? '').replace('{fps}', options.fps)
+
+    function mutex_start() {
+        if (el_btn_export.disabled) {
+            return false;
+        }
+        el_btn_export.disabled = true
+        return true;
+    }
+   
+    function mutex_free() {
+        el_btn_export.disabled = false
     }
 
-    if (!device.template) {
-        return console.error(`${device.name} build is comming soon!`)
+    const ext = base.split('.').pop() ?? ''
+    const uptime = (new Date()).toISOString().slice(2, 10).replace(/-/g, '-');
+    const hash7 = await (async () => {
+        const hashBuffer = await crypto.subtle.digest("SHA-1", (new TextEncoder()).encode(src).buffer);
+        const hashArray = Array.from(new Uint8Array(hashBuffer));
+        const hashHex = hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
+        return hashHex.slice(0, 7);
+    })()
+
+    function download(content: Uint8Array, name: string) {
+        const blob = new Blob([content], { type: 'application/octet-stream' });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = name;
+        document.body.appendChild(a);
+        a.click();
+        console.log(`downloading: ${name}`);
+        URL.revokeObjectURL(url);
+        document.body.removeChild(a);
     }
 
-    if (elBtnExport.disabled) {
-        return console.warn(`building already in progress!`);
+    const builders = {
+        template: async () => download(await gly2bin(src, base), `game-${uptime}-${hash7}.${ext}`),
+        lua2tic: async () => download(lua2tic(engine_lite, src), `game-${uptime}-${hash7}.tic`),
+        code: async() => download(new TextEncoder().encode(src), `game-${uptime}-${hash7}.lua`)
     }
 
-    elBtnExport.disabled = true;
-    await downloadGame(vscode.ide().getValue(), device.template)
-    elBtnExport.disabled = false;
+    if (!mutex_start()) {
+        return console.error(`building already in progress!`);
+    }
+
+    await builders[exporter]()
+    mutex_free()
 }
-*/

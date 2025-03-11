@@ -2,6 +2,7 @@
     {
         "name": "Text Editor",
         "short": "code",
+        "export": "code",
         "width": 1280,
         "height": 720,
         "unlock": true,
@@ -10,7 +11,7 @@
     {
         "name": "Nintendo Game Boy Advanced",
         "short": "gba",
-        "template": "core-native-gba.gba",
+        "template": "core-native-gba-{fps}fps.gba",
         "width": 240,
         "height": 160,
         "fps": [30, 20]
@@ -48,6 +49,7 @@
     {
         "name": "TIC 80",
         "short": "tic",
+        "export": "lua2tic",
         "width": 240,
         "height": 136,
         "fps": [60]
