@@ -25,7 +25,7 @@ jobs:
           npm install
       - 
         run: |
-          npm run build
+          npm run build --minify
       - 
         if: github.event_name == 'push' || github.event.pull_request.head.repo.full_name == github.repository || github.event_name == 'workflow_dispatch'
         uses: cloudflare/pages-action@v1

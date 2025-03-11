@@ -1,37 +1,9 @@
 import wasmFile from 'wasmoon/dist/glue.wasm';
 import { LuaFactory, LuaMultiReturn } from 'wasmoon'
-import { editor, KeyMod, KeyCode } from 'monaco-editor'
 import gly from '@gamely/core-native-html5'
-import gly_engine from '@gamely/gly-engine/dist/main.lua'
-import defaultScript from './default.lua'
-import devices from '../devices.json'
-import applyLayout from './ui.js'
-import downloadGame from './export.js'
-import compulate from './compulate.js'
+import gly_engine from '@gamely/gly-engine' with { type: "text" }
 
-compulate(devices)
-applyLayout('layout-default');
-let monacoTimeout;
-
-document.addEventListener('DOMContentLoaded', async () => {
-    const elMain = document.querySelector('main')
-    const elMonacoEditor = document.querySelector('#editor')
-    const elOutput = document.querySelector('#output')
-    const elBtnPlay = document.querySelector('#btn-play')
-    const elBtnExport = document.querySelector('#btn-export')
-    const elChkHotReload = document.querySelector('#chk-hot-reload')
-    const elSelLayout = document.querySelector('#sel-layout')
-
-    const monacoEditor = editor.create(elMonacoEditor, {
-        language: 'lua',
-        theme: 'vs-dark',
-        automaticLayout: true,
-        fontLigatures: true,
-        fontFamily: 'Cascadia Code'
-    });
-
-    monacoEditor.setValue(defaultScript)
-    
+export default async function (width: number, height: number, default_game: string) {
     const factory = new LuaFactory(wasmFile)
     const lua = await factory.createEngine()
 
@@ -69,66 +41,9 @@ document.addEventListener('DOMContentLoaded', async () => {
     gly.global.set('native_callback_resize', lua.global.get('native_callback_resize'))
     gly.global.set('native_callback_keyboard', lua.global.get('native_callback_keyboard'))
 
-    gly.error('silent', (e) => {
-        elOutput.innerHTML = `${e}<br/>${elOutput.innerHTML}`
-        gly.pause()
-    })
     gly.init('#gameCanvas')
-
-    gly.load(defaultScript)
-    const apply = () => {
-        clearTimeout(monacoTimeout)
-        gly.resume()
-        gly.load(monacoEditor.getValue())
-    }
-
-    monacoEditor.addAction({
-        id: 'run-game',
-        label: 'running game',
-        keybindings: [KeyMod.CtrlCmd | KeyCode.KeyE],
-        run: apply
-    })
-
-    elSelLayout.addEventListener('change', () => {
-        Array.from(elMain.classList)
-            .filter(className => className.startsWith('layout-'))
-            .forEach(className => elMain.classList.remove(className))
-        elMain.classList.add(elSelLayout.value)
-    });
-
-    elBtnPlay.addEventListener('click', apply)
-
-    monacoEditor.onDidChangeModelContent(() => {
-        clearTimeout(monacoTimeout);
-        monacoTimeout = setTimeout(() => {
-            if (elChkHotReload.checked) {
-                apply()
-            }
-        }, 3000);
-    });
-    
-    elBtnExport.addEventListener('click', async () => {
-        const select = document.querySelector('#preset-resolutions');
-        const option = select.querySelector(`option[value="${select.value}"]`)
-        const device_name = option.textContent.split(' ')[0]
-        const device = devices.find((device) => device.short.toLowerCase() == device_name.toLowerCase())
-
-        if (!device) {
-            return console.error(`device not found: ${device_name}`)
-        }
-
-        if (!device.template) {
-            return console.error(`${device.name} build is comming soon!`)
-        }
-
-        if (elBtnExport.disabled) {
-            return console.warn(`building already in progress!`);
-        }
-
-        elBtnExport.disabled = true;
-        await downloadGame(monacoEditor.getValue(), device.template)
-        elBtnExport.disabled = false;
-    });
+    gly.load(default_game)
+    gly.resize(width,  height)
 
     const keys = [
         [403, 'red'],
@@ -146,10 +61,6 @@ document.addEventListener('DOMContentLoaded', async () => {
         ['ArrowRight', 'right'],
     ];
 
-    function updateSize() {
-        gly.resize()
-    }
-
     function updateKey(ev) {
         const key = keys.find(key => key[0] == ev.code)
         if (key) {
@@ -162,8 +73,17 @@ document.addEventListener('DOMContentLoaded', async () => {
         gly.update_uptime(performance.now());
     }
 
-    window.addEventListener("resize", updateSize);
     window.addEventListener('keydown', updateKey)
     window.addEventListener('keyup', updateKey)
     window.requestAnimationFrame(updateLoop);
-})
+
+    return {
+        resize: (width: number, height: number) => {
+            gly.resize(width, height)
+        },
+        changeGame: (new_game:string) => {
+            gly.resume()
+            gly.load(new_game)
+        } 
+    }
+}
