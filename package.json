@@ -6,14 +6,16 @@
   "funding": "https://github.com/sponsors/RodrigoDornelles",
   "bugs": "https://github.com/gamelly/gly-ide/issues",
   "devDependencies": {
-    "@gamely/core-native-html5": "^0.0.18",
-    "@gamely/gly-engine": "^0.0.18",
+    "@gamely/core-native-html5": "^0.0.19",
+    "@gamely/gly-engine-lite": "^0.0.19",
+    "@gamely/gly-engine": "^0.0.19",
+    "@gamely/lua2tic": "^0.0.19",
     "monaco-editor": "0.52.2",
     "wasmoon": "1.16.0",
     "bun": "^1.2.4"
   },
   "scripts": {
     "build": "bun build --external=module --outdir=dist --entrypoint index.html",
-    "serve": "bun run build --watch"
+    "start": "bun run build --chunk-naming '[dir]/[name].[ext]' --watch"
   }
 }
